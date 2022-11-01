@@ -1,21 +1,39 @@
 #include <stdio.h>
+#include "xparameters.h"
+#include "platform.h"
+#include "xil_printf.h"
+#include "xaxidma.h"
+#include "xscugic.h"
+#include "xil_exception.h"
 #include "xorwow.h"
-#include <time.h>
-#include <curses.h>
-#include <malloc.h>
-#include <stdlib.h>
+#include "xtime_l.h"
+#include "inbyte_nb.h"
+#define DMA_DEV_ID XPAR_AXIDMA_0_DEVICE_ID
+#define INTC_DEVICE_ID XPAR_SCUGIC_SINGLE_DEVICE_ID
+#define INTC XScuGic
+#define INTC_HANDLER XScuGic_InterruptHandler
+#define TX_INTR_ID XPAR_FABRIC_AXI_DMA_0_MM2S_INTROUT_INTR
+#define VGA_INTR_ID 62
+#define FRAME_0_BASE (XPAR_PS7_DDR_0_S_AXI_BASEADDR + 0x00100000)
+#define FRAME_1_BASE (XPAR_PS7_DDR_0_S_AXI_BASEADDR + 0x00101000)
 // 640/16, 480/16
 #define SIZE_X 40
 #define SIZE_Y 30
-// Frame size in WORDS; 5 - transaction size, +1 because of "start" transaction
-#define FRAME_SIZE (SIZE_X * SIZE_Y / 5 + 1)
+// Frame size in WORDS; 5 - transaction size, +1 because of "start" transaction and "some space after"
+#define FRAME_SIZE (SIZE_X * SIZE_Y / 5 + 2)
+#define FRAME_SIZE_REAL (SIZE_X * SIZE_Y / 5 + 1)
+//Time interval for advancement
+#define GAME_SPEED_SECONDS 1.0
 
-#define u8 uint8_t
-#define u16 uint16_t
-#define u32 uint32_t
+XAxiDma AxiDma; /* Instance of the XAxiDma */
+INTC Intc; /* Instance of the Interrupt Controller */
 
 int new_frame_ready = 0;
 u8 current_frame = 1;
+
+int SetupIntrSystem(INTC * IntcInstancePtr,XAxiDma * AxiDmaPtr, u16 TxIntrId, u16 RxIntrId);
+void TxIntrHandler(void *Callback);
+void Data_requestIntrHandler(void *Callback);
 
 //=====================================================================================
 // game types and constants
@@ -32,11 +50,6 @@ const u8 D_DOWN = 2;
 const u8 D_RIGHT = 3;
 // starting food count
 const int FOOD_CNT = 3;
-
-void BLYAT() {
-    endwin();
-    exit(1);
-}
 
 typedef struct pos_s {
     int x;
@@ -88,16 +101,14 @@ block_t getBlock(gameState_t *gameState, pos_t pos) {
 void setBlock(gameState_t *gameState, pos_t pos, block_t block) {
 	int xbi = pos.x / 2; //byte index; 1 for "first"
 	int xbs = (pos.x % 2) * 4; //(inside) byte shift
-	//EDITED: not 7!!!
-	gameState->map[xbi][pos.y] = (gameState->map[xbi][pos.y] & (~(0xF << xbs))) | (block.val << xbs) | (block.dir << (xbs+2));
+	gameState->map[xbi][pos.y] = (gameState->map[xbi][pos.y] & (~(7 << xbs))) | (block.val << xbs) | (block.dir << (xbs+2));
 }
 
-//EDITED: wrong range calculation
 //adds a random food on the screen
 void addFood(gameState_t *gameState, int cnt) {
 	int x_min, y_min, x_max, y_max, x_range, y_range;
     x_min = 0, y_min = 0;
-    x_max = SIZE_X, y_max = SIZE_Y; //not inclusive!!
+    x_max = SIZE_X, y_max = SIZE_Y;
     u8 tooBig = gameState->snakeLen > (x_max-x_min)*(y_max-y_min) * 3/4;
     if (tooBig) {
         //low chance to place randomly, find place around the tail
@@ -105,14 +116,11 @@ void addFood(gameState_t *gameState, int cnt) {
         if (x_min < 0) x_min = 0;
         y_min = gameState->tail.y - 5;
         if (y_min < 0) y_min = 0;
-        x_max = gameState->tail.x + 5;
-        if (x_max >= SIZE_X) x_max = SIZE_X;
-        y_max = gameState->tail.y + 5;
-        if (y_max >= SIZE_Y) x_max = SIZE_Y;
-        if (cnt < SIZE_X * SIZE_Y - gameState->snakeLen) cnt = SIZE_X * SIZE_Y - gameState->snakeLen;
+        x_range = y_range = 10;
+        if (x_min + x_range > x_max) x_range = x_max - x_min;
+        if (y_min + y_range > y_max) y_range = y_max - y_min;
+        if (cnt < x_max * y_max - gameState->snakeLen) cnt = x_max * y_max - gameState->snakeLen;
     }
-    x_range = x_max - x_min;
-    y_range = y_max - y_min;
     u8 placed = 0;
     pos_t pos;
     do {
@@ -126,7 +134,6 @@ void addFood(gameState_t *gameState, int cnt) {
     } while (placed < cnt);
 }
 
-//WHERE THESE SHOULD BE?!
 void resetState(gameState_t *gameState) {
     //fill map with EMPTY
     for (int x = 0; x < SIZE_X / 2; ++x)
@@ -158,6 +165,7 @@ void setHeadDir(gameState_t *gameState, u8 dir) {
 }
 
 void handleKey(gameState_t *gameState, char key) {
+	xil_printf("%c",key);
 	if (gameState->freeze) resetState(gameState); //start the game after any key is pressed
     else {
 		switch(key) {
@@ -177,14 +185,12 @@ void handleKey(gameState_t *gameState, char key) {
     }
 }
 
-//EDITED: head movement, head/body blocks
 void advanceGame(gameState_t *gameState) {
 	if (gameState->freeze) return;
     //get next head position
     u8 headDir = getBlock(gameState, gameState->head).dir;
     pos_t newHead = moveDir(gameState->head, headDir);
-    block_t nb_head = {B_HEAD, headDir}; //head
-    block_t nb_snake = {B_SNAKE, headDir}; //body
+    block_t nb_h = {B_SNAKE, headDir};
     //check gameover events
     if ((!pos_eq(newHead, gameState->tail) && getBlock(gameState, newHead).val == B_SNAKE) //exception for the tail - it moves too!
         	|| newHead.x == -1 || newHead.x == SIZE_X || newHead.y == -1 || newHead.y == SIZE_Y) {
@@ -194,8 +200,8 @@ void advanceGame(gameState_t *gameState) {
     //move body, check food
     if (getBlock(gameState, newHead).val == B_FOOD) {
         //move head only
-        setBlock(gameState, gameState->head, nb_snake); //change old head to body
-        setBlock(gameState, newHead, nb_head); //set new head
+        setBlock(gameState, gameState->head, nb_h); //change old head to body
+        setBlock(gameState, newHead, nb_h); //set new head
         gameState->head = newHead; //change head "pointer"
         //inc length, check if max
         if (++gameState->snakeLen == SIZE_X * SIZE_Y) {
@@ -212,12 +218,10 @@ void advanceGame(gameState_t *gameState) {
         //move tail first to avoid Uroboros
         block_t nb_empty = {B_EMPTY, D_UP};
         setBlock(gameState, gameState->tail, nb_empty); //change old tail to emptiness
-        //New tail position is already body, so no problems... or maybe it's the head? Same.
         gameState->tail = newTail; //change tail "pointer"
         //now can move head
-        setBlock(gameState, gameState->head, nb_snake); //change old head to body
-        setBlock(gameState, newHead, nb_head); //set new head
-        gameState->head = newHead; //change head "pointer"
+        setBlock(gameState, gameState->head, nb_h); //change old head to body
+        setBlock(gameState, newHead, nb_h); //set new head
     }
     //update last head dir to current
     gameState->lastHeadDir = headDir;
@@ -229,7 +233,7 @@ void advanceGame(gameState_t *gameState) {
 //add first-finish markers to the frame
 void markFrame(u16 *frame) {
 	frame[0] = 0x8000;
-	frame[FRAME_SIZE - 1] |= 0x4000;
+	frame[FRAME_SIZE_REAL - 1] |= 0x4000;
 }
 
 //sets all frame to 0, but prepares "first"
@@ -237,13 +241,6 @@ void emptyFrame(u16 *frame) {
 	for (int i = 0; i < FRAME_SIZE; ++i)
 		frame[i] = 0x0000;
 	markFrame(frame);
-}
-
-char ascii(uint8_t b) {
-    return b == B_EMPTY ? '.'
-        : b == B_SNAKE ? 'o'
-        : b == B_HEAD ? 'O'
-        : b == B_FOOD ? 'X' : 'm';
 }
 
 void testFrame(u16 *frame, int shift) {
@@ -257,13 +254,9 @@ void testFrame(u16 *frame, int shift) {
 			if (d < 0) d = -d;
 			if (d > 3) d = 0;
 			frame[wi] |= d << ws;
-		    printw("%c", ascii(d));
 		}
-		printw("\n\r");
 	}
 	markFrame(frame);
-	printw("\n\r");
-	printw("\n\r");
 }
 
 void gameFrame(u16 *frame, gameState_t *gameState) {
@@ -274,18 +267,13 @@ void gameFrame(u16 *frame, gameState_t *gameState) {
 			int wi = bi / 5 + 1; //word index; 1 for "first"
 			int ws = (bi % 5) * 2; //(inside) word shift
 			pos_t p = {x, y};
-			u8 tmp = ((gameState->freeze &&
+			frame[wi] |= ((gameState->freeze &&
 					(x == 0 || x == SIZE_X - 1
 					|| y == 0 || y == SIZE_Y - 1)) ?
-					B_FOOD : getBlock(gameState, p).val);
-			frame[wi] |= tmp << ws;
-		    printw("%c", ascii(tmp));
+					B_FOOD : getBlock(gameState, p).val) << ws;
 		}
-		printw("\n\r");
 	}
 	markFrame(frame);
-	printw("\n\r");
-	printw("\n\r");
 }
 
 //=====================================================================================
@@ -293,54 +281,146 @@ void gameFrame(u16 *frame, gameState_t *gameState) {
 
 int main()
 {
+	XAxiDma_Config *CfgPtr;
 	int 	status;
 	u16* 	frameBaseAddr;
-	u16 	*frame0 = (u16*)calloc(FRAME_SIZE, sizeof(u16)),
-			*frame1 = (u16*)calloc(FRAME_SIZE, sizeof(u16));
-	int32_t 	key;
+	u16 	*frame0 = (u16*)FRAME_0_BASE,
+			*frame1 = (u16*)FRAME_1_BASE;
+	int8_t 	key;
 
-	clock_t t_last;
-	clock_t t_cur;
+	XTime t_last;
+	XTime t_cur;
 
 	gameState_t gameState;
-	
-	initscr();
-	clear();
-	noecho();
-	cbreak();	/* Line buffering disabled. pass on everything */
-	refresh();
 
 	// init random stuff
-	printw("Start\n\r");
+	init_platform();
+	xil_printf("Start\n\r");
+	CfgPtr = XAxiDma_LookupConfig(DMA_DEV_ID);
+	if (!CfgPtr) {
+		xil_printf("No config found for %d\r\n", DMA_DEV_ID);
+		return XST_FAILURE;
+	}
+	status = XAxiDma_CfgInitialize(&AxiDma, CfgPtr);
+	if (status != XST_SUCCESS) {
+		xil_printf("Initialization failed %d\r\n", status);
+		return XST_FAILURE;
+	}
+	if(XAxiDma_HasSg(&AxiDma)){
+		xil_printf("Device configured as SG mode \r\n");
+		return XST_FAILURE;
+	}
+	//disable interrupts for some important reason
+	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,XAXIDMA_DMA_TO_DEVICE);
+
 	//init memory with 0; "first" - not 0 (yeah, first frame will be trash, deal with it?)
 	emptyFrame(frame0);
 	emptyFrame(frame1);
+	//start system, I guess?
+	Xil_DCacheFlushRange((UINTPTR)frame0, FRAME_SIZE * 2); //in BYTES!!!
+	Xil_DCacheFlushRange((UINTPTR)frame1, FRAME_SIZE * 2);
+	status = SetupIntrSystem(&Intc, &AxiDma, TX_INTR_ID, VGA_INTR_ID);
+	if (status != XST_SUCCESS) {
+		xil_printf("Failed intr setup\r\n");
+		return XST_FAILURE;
+	}
 	/* Disable all interrupts before setup */
+	//TODO: do I really need it? I think not
+	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
+	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+	/* Enable all interrupts */
+	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
+	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
 
 	while(1){
-	    clear();
+		while(new_frame_ready)
+		    ;
 		frameBaseAddr = !current_frame ? frame1 : frame0;
 		if (firstGame) testFrame(frameBaseAddr, 0);
 		else gameFrame(frameBaseAddr, &gameState);
-		refresh();
+		Xil_DCacheFlushRange((UINTPTR)frameBaseAddr, FRAME_SIZE * 2);
+		new_frame_ready = 1;
 		//record current time
-		t_last = clock();
+		XTime_GetTime(&t_last);
 		t_cur = t_last;
-		//EDITED: note that clocks-per-sec might cause trouble
-		while ((double)(t_cur - t_last) / (CLOCKS_PER_SEC/100) < 1.0) {
-		    timeout(1);
-			key = getch(); //try to get inbyte
-			if (key != ERR) handleKey(&gameState, (char)key);
-			t_cur = clock();
-			//clear();
-			//printw("%f", (double)(t_cur - t_last) / (CLOCKS_PER_SEC/20));
-			//printw("%d - %d = %d / %d", t_cur, t_last, t_cur - t_last, CLOCKS_PER_SEC);
+		while (t_cur - t_last <= GAME_SPEED_SECONDS * COUNTS_PER_SECOND/4) {
+			key = inbyte_nb(); //try to get inbyte
+			if (key != -1) handleKey(&gameState, (char)key);
+			XTime_GetTime(&t_cur);
 		}
-        printw("aboba");
-        refresh();
 		//advance game state
 		advanceGame(&gameState);
 		//ready to output a new frame!
 	}
+	cleanup_platform();
 	return 0;
+}
+
+//=====================================================================================
+// random interrupt stuff I'm too afraid to touch
+
+int SetupIntrSystem(INTC * IntcInstancePtr,
+			XAxiDma * AxiDmaPtr, u16 TxIntrId, u16 Data_requestIntrId)
+{
+	int status;
+	XScuGic_Config *IntcConfig;
+
+	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
+	if (NULL == IntcConfig) {
+		return XST_FAILURE;
+	}
+
+	status = XScuGic_CfgInitialize(IntcInstancePtr, IntcConfig,
+				IntcConfig->CpuBaseAddress);
+	if (status != XST_SUCCESS) {
+		return XST_FAILURE;
+	}
+
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, Data_requestIntrId, 0xA0, 0x0);
+
+	status = XScuGic_Connect(IntcInstancePtr, TxIntrId,
+				(Xil_InterruptHandler)TxIntrHandler,
+				AxiDmaPtr);
+	if (status != XST_SUCCESS) {
+		return status;
+	}
+	status = XScuGic_Connect(IntcInstancePtr, Data_requestIntrId,
+				(Xil_InterruptHandler)Data_requestIntrHandler,
+				AxiDmaPtr);
+	if (status != XST_SUCCESS) {
+		return status;
+	}
+
+	XScuGic_Enable(IntcInstancePtr, TxIntrId);
+	XScuGic_Enable(IntcInstancePtr, Data_requestIntrId);
+
+	Xil_ExceptionInit();
+	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT,
+				(Xil_ExceptionHandler)INTC_HANDLER,
+				(void *)IntcInstancePtr);
+
+	Xil_ExceptionEnable();
+	return 0;
+}
+
+void TxIntrHandler(void *Callback)
+{
+	XScuGic_Enable(&Intc, VGA_INTR_ID);
+	XAxiDma *AxiDmaInst = (XAxiDma *)Callback;
+	u32 Irqstatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DMA_TO_DEVICE);
+	XAxiDma_IntrAckIrq(AxiDmaInst, Irqstatus, XAXIDMA_DMA_TO_DEVICE);
+	if (new_frame_ready) {
+		current_frame = !current_frame;
+		new_frame_ready = 0;
+	}
+}
+
+void Data_requestIntrHandler(void *Callback)
+{
+	//maybe it's unitptr from the start and conversion isn't needed?
+	UINTPTR frameBaseAddr = current_frame ? FRAME_1_BASE : FRAME_0_BASE;
+	XAxiDma_SimpleTransfer(&AxiDma, (UINTPTR)frameBaseAddr,
+			FRAME_SIZE * 2, XAXIDMA_DMA_TO_DEVICE);
+	XScuGic_Disable(&Intc, VGA_INTR_ID);
 }

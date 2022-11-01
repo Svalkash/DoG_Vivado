@@ -53,7 +53,7 @@ architecture Behavioral of DOG2AXIS is
     constant V_BSIZE: integer := VAV / BSZ;
     -- block values
 	constant BBITS: integer := 2; -- bits per block
-    constant B_EMPTY: std_logic_vector(1 downto 0) := "00"; -- 0 - used for indexing!
+    constant B_EMPTY: std_logic_vector(1 downto 0) := "00"; -- 0
     constant B_SNAKE: std_logic_vector(1 downto 0) := "01"; -- 1
     constant B_HEAD: std_logic_vector(1 downto 0) := "10"; -- 2
     constant B_FOOD: std_logic_vector(1 downto 0) := "11"; -- 3
