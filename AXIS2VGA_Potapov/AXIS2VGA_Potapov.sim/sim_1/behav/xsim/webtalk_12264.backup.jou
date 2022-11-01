@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sun Sep 25 10:27:46 2022
+# Process ID: 12264
+# Current directory: D:/Vivado_Labs/potapov/AXIS2VGA_Potapov/AXIS2VGA_Potapov.sim/sim_1/behav/xsim
+# Command line: wbtcv.exe -mode batch -source D:/Vivado_Labs/potapov/AXIS2VGA_Potapov/AXIS2VGA_Potapov.sim/sim_1/behav/xsim/xsim.dir/TB_AXIS2VGA_IP_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: D:/Vivado_Labs/potapov/AXIS2VGA_Potapov/AXIS2VGA_Potapov.sim/sim_1/behav/xsim/webtalk.log
+# Journal file: D:/Vivado_Labs/potapov/AXIS2VGA_Potapov/AXIS2VGA_Potapov.sim/sim_1/behav/xsim\webtalk.jou
+#-----------------------------------------------------------
+source D:/Vivado_Labs/potapov/AXIS2VGA_Potapov/AXIS2VGA_Potapov.sim/sim_1/behav/xsim/xsim.dir/TB_AXIS2VGA_IP_behav/webtalk/xsim_webtalk.tcl -notrace

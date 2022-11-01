@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../AXIS2VGA_Potapov.srcs/sources_1/new/AXIS2VGA_IP.vhd" \
+"../../../../AXIS2VGA_Potapov.srcs/sources_1/new/TB_AXIS2VGA_IP.vhd" \
+
+# Do not sort compile order
+nosort

@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Wed Oct 26 22:27:35 2022
+# Process ID: 13252
+# Current directory: D:/Vivado_Labs/potapov/DOG2AXIS/DOG2AXIS.runs/synth_1
+# Command line: vivado.exe -log DOG2AXIS.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source DOG2AXIS.tcl
+# Log file: D:/Vivado_Labs/potapov/DOG2AXIS/DOG2AXIS.runs/synth_1/DOG2AXIS.vds
+# Journal file: D:/Vivado_Labs/potapov/DOG2AXIS/DOG2AXIS.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source DOG2AXIS.tcl -notrace

@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>user.org</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>DOG2AXIS</spirit:name>
+  <spirit:version>1.3</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>AXIS_S</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>AXIS_M</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>reset_n</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>reset_n</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>clk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>clk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_BUSIF">AXIS_S:AXIS_M</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>DOG2AXIS</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>0349fdca</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>DOG2AXIS</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>0349fdca</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_testbench</spirit:name>
+        <spirit:displayName>Test Bench</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:modelName>TB_DOG2AXIS</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>42311a80</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>b284e308</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>clk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>reset_n</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="bitString" spirit:bitStringLength="1">0x0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="bitString" spirit:bitStringLength="1">0x0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>fifo_data_c</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>int_r</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="bitString" spirit:bitStringLength="1">0x0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>HAV</spirit:name>
+        <spirit:displayName>Hav</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.HAV">640</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>VAV</spirit:name>
+        <spirit:displayName>Vav</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.VAV">480</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>BSZ_P2</spirit:name>
+        <spirit:displayName>Bsz P2</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.BSZ_P2" spirit:minimum="0" spirit:rangeType="long">4</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>INT_REQ</spirit:name>
+        <spirit:displayName>Int Req</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.INT_REQ">40</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>DOG2AXIS.srcs/sources_1/new/DOG2AXIS.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_0349fdca</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>DOG2AXIS.srcs/sources_1/new/DOG2AXIS.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>../AXIS2VGA_Potapov/AXIS2VGA_Potapov.srcs/sources_1/new/AXIS2VGA_IP.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>DOG2AXIS.srcs/sim_1/new/TB_DOG2AXIS.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>TB_DOG2AXIS_behav.wcfg</spirit:name>
+        <spirit:fileType>unknown</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/DOG2AXIS_v1_3.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_b284e308</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>DOG2AXIS_v1_3</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>HAV</spirit:name>
+      <spirit:displayName>Hav</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.HAV">640</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>VAV</spirit:name>
+      <spirit:displayName>Vav</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.VAV">480</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>BSZ_P2</spirit:name>
+      <spirit:displayName>Bsz P2</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.BSZ_P2" spirit:minimum="0" spirit:rangeType="long">4</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>INT_REQ</spirit:name>
+      <spirit:displayName>Int Req</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.INT_REQ">40</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">DOG2AXIS_v1_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>DOG2AXIS_v1_3</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>14</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-10-30T19:20:40Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@280f24c8_ARCHIVE_LOCATION">/home/k12/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2be1aaf0_ARCHIVE_LOCATION">/home/k12/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b134f70_ARCHIVE_LOCATION">/home/k12/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1212e1a5_ARCHIVE_LOCATION">/home/k12/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@429091d6_ARCHIVE_LOCATION">/home/k12/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2521f8a3_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52a4488d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b8c0620_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72db068_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18dfafb7_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4aca25cb_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ff8292d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@133aa2a5_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24d7d4f6_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b0523cd_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@688d3535_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1dc8c9c9_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1660aec4_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@424306b6_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28f75f60_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2cd469cc_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e4b0f29_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a9fc0cd_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@732c15f9_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49302902_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70f089b9_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ee3f89b_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1912891f_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18384d64_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2453d3f9_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14600dc2_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29a448af_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19eb6f11_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c61154d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4eb6451d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@153734db_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f832942_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@750c9d64_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@292dce77_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a3d35b5_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b6fe33c_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@eaa897a_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3785a75e_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a5d5de1_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5369219f_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@9d7617d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70f01837_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@173ba88f_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7547ffcc_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cdaad76_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b88f041_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ba220f1_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a0cd54d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72183812_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4917d3ba_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20a347b7_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@654d1912_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62f23a5_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cd7c56_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5cdd10df_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b0233a7_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@bb63b6c_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c33c67a_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ec73447_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12cb2d6a_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20cae734_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bd104f7_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ef067c6_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45be4d13_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a135410_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54cf3c6d_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50adffe9_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6196e7c_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71b4d7e1_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3aeb7fa8_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f807ed7_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f93e2d4_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a7e8fae_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78b96f90_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b25ab07_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c7182a6_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12b23c47_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36985c3f_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ab59cdd_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f398095_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40632f2f_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c1edc02_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@280c96be_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5965a9e6_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@aafa364_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7118b736_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40915f9e_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62b15cdc_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66d6e19b_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72b05b23_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e5aff67_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12574933_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@175ec9e6_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12a2d48_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72542110_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@725c8fc_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8dc29e8_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35482003_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a4ccaab_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12dec1ad_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3de876f5_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a38e6b0_ARCHIVE_LOCATION">d:/Vivado_Labs/potapov/DOG2AXIS</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="d9827c71"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="784ffcda"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="f3f5624d"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="dfd4bcf9"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="84003322"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

@@ -1,0 +1,1 @@
+-wto "cc425aebdf004d8da917df9fed8a24a0" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "TB_AXIS2VGA_IP_behav" "xil_defaultlib.TB_AXIS2VGA_IP" -log "elaborate.log" 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="TB_AXIS2VGA_IP_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="TB_AXIS2VGA_IP" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="848000000fs"></ZoomStartTime>
+      <ZoomEndTime time="2150000001fs"></ZoomEndTime>
+      <Cursor1Time time="467244000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="108"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="18" />
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/reset_n" type="logic">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/axis_data" type="array">
+      <obj_property name="ElementShortName">axis_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">axis_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/axis_valid" type="logic">
+      <obj_property name="ElementShortName">axis_valid</obj_property>
+      <obj_property name="ObjectShortName">axis_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/axis_tready" type="logic">
+      <obj_property name="ElementShortName">axis_tready</obj_property>
+      <obj_property name="ObjectShortName">axis_tready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/fifo_data_c" type="array">
+      <obj_property name="ElementShortName">fifo_data_c[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fifo_data_c[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/int_r" type="logic">
+      <obj_property name="ElementShortName">int_r</obj_property>
+      <obj_property name="ObjectShortName">int_r</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/vga_red" type="array">
+      <obj_property name="ElementShortName">vga_red[3:0]</obj_property>
+      <obj_property name="ObjectShortName">vga_red[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/vga_green" type="array">
+      <obj_property name="ElementShortName">vga_green[3:0]</obj_property>
+      <obj_property name="ObjectShortName">vga_green[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/vga_blue" type="array">
+      <obj_property name="ElementShortName">vga_blue[3:0]</obj_property>
+      <obj_property name="ObjectShortName">vga_blue[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/vga_hsync" type="logic">
+      <obj_property name="ElementShortName">vga_hsync</obj_property>
+      <obj_property name="ObjectShortName">vga_hsync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/vga_vsync" type="logic">
+      <obj_property name="ElementShortName">vga_vsync</obj_property>
+      <obj_property name="ObjectShortName">vga_vsync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/state" type="other">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/next_state" type="other">
+      <obj_property name="ElementShortName">next_state</obj_property>
+      <obj_property name="ObjectShortName">next_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/h_cnt" type="other">
+      <obj_property name="ElementShortName">h_cnt</obj_property>
+      <obj_property name="ObjectShortName">h_cnt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/v_cnt" type="other">
+      <obj_property name="ElementShortName">v_cnt</obj_property>
+      <obj_property name="ObjectShortName">v_cnt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/av" type="logic">
+      <obj_property name="ElementShortName">av</obj_property>
+      <obj_property name="ObjectShortName">av</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TB_AXIS2VGA_IP/uut/av_d" type="logic">
+      <obj_property name="ElementShortName">av_d</obj_property>
+      <obj_property name="ObjectShortName">av_d</obj_property>
+   </wvobject>
+</wave_config>
