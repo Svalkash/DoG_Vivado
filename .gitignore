@@ -85,3 +85,7 @@
 !*.elf
 !*.bmm
 !*.xmp
+
+!*.md
+!*.jpg
+!*.drawio
