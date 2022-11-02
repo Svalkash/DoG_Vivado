@@ -33,11 +33,6 @@ const u8 D_RIGHT = 3;
 // starting food count
 const int FOOD_CNT = 3;
 
-void BLYAT() {
-    endwin();
-    exit(1);
-}
-
 typedef struct pos_s {
     int x;
     int y;
