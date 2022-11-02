@@ -154,6 +154,7 @@ void resetState(gameState_t *gameState) {
     addFood(gameState, FOOD_CNT);
     //start the game
     gameState->freeze = 0;
+    xil_printf("Good luck!\r\n");
     //reset the first game flag
     firstGame = 0;
 }
@@ -165,7 +166,6 @@ void setHeadDir(gameState_t *gameState, u8 dir) {
 }
 
 void handleKey(gameState_t *gameState, char key) {
-	xil_printf("%c",key);
 	if (gameState->freeze) resetState(gameState); //start the game after any key is pressed
     else {
 		switch(key) {
@@ -195,6 +195,8 @@ void advanceGame(gameState_t *gameState) {
     if ((!pos_eq(newHead, gameState->tail) && getBlock(gameState, newHead).val == B_SNAKE) //exception for the tail - it moves too!
         	|| newHead.x == -1 || newHead.x == SIZE_X || newHead.y == -1 || newHead.y == SIZE_Y) {
         gameState->freeze = 1; //just freeze the game and return
+        xil_printf("GAME OVER! Total score: %d.\r\n", gameState->snakeLen - 2);
+        xil_printf("Press any key to restart...\r\n");
         return;
     }
     //move body, check food
@@ -206,6 +208,8 @@ void advanceGame(gameState_t *gameState) {
         //inc length, check if max
         if (++gameState->snakeLen == SIZE_X * SIZE_Y) {
             gameState->freeze = 1; //gameover (win)
+            xil_printf("YOU WIN!\r\n");
+            xil_printf("Press any key to restart...\r\n");
             return;
         }
         //add food if possible
@@ -295,7 +299,7 @@ int main()
 
 	// init random stuff
 	init_platform();
-	xil_printf("Start\n\r");
+	xil_printf("Loading...\n\r");
 	CfgPtr = XAxiDma_LookupConfig(DMA_DEV_ID);
 	if (!CfgPtr) {
 		xil_printf("No config found for %d\r\n", DMA_DEV_ID);
@@ -331,6 +335,7 @@ int main()
 	/* Enable all interrupts */
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+    xil_printf("Press any key to start.\r\n");
 
 	while(1){
 		while(new_frame_ready)
